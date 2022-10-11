@@ -1,23 +1,31 @@
 ---
 imports:
     - kubernetes/kubectl
-    - kubernetes/helm3
-    - kubernetes/context
-    - kubernetes/choose/ns
-    - ./kubernetes/label-selectors
     - ./resources
+    - kubernetes/choose/ns
 ---
 
 # Kas here.. updating??? -- Install Ray on a Kubernetes Cluster
 
 This will install Ray on a Kubernetes context of your choosing.
 
---8<-- "../hacks/openshift/uid-range.md"
+The name of the Ray Kubernetes Service:
+
+```shell
+export RAY_KUBE_CLUSTER_NAME=${RAY_KUBE_CLUSTER_NAME-mycluster}
+```
 
 ## Stream out Events from the Ray Head Node
 
 ```shell.async
-kubectl get events --context ${KUBE_CONTEXT} -n ${KUBE_NS} --watch-only | tee "${STREAMCONSUMER_EVENTS}kubernetes.txt"
+kubectl get events ${KUBE_CONTEXT_ARG} ${KUBE_NS_ARG} --watch-only | tee "${STREAMCONSUMER_EVENTS-/tmp/}kubernetes.txt"
+```
+
+```shell.async
+if [ -n "$DEBUG_KUBERNETES" ]; then
+    echo "Streaming out Ray Pod Logs"
+    kubectl logs ${KUBE_CONTEXT_ARG} ${KUBE_NS_ARG} -l ray-cluster-name=${RAY_KUBE_CLUSTER_NAME} -f
+fi
 ```
 
 ### Use Helm to create the Ray Cluster
@@ -60,23 +68,3 @@ export RAY_KUBE_CLUSTER_NAME=mycluster
 ``` -->
 
 --8<-- "./kubernetes/install-via-helm.md"
-
-## Wait for Ray Head Node
-
-```shell
-while true; do
-    kubectl --context ${KUBE_CONTEXT} wait pod -n ${KUBE_NS} -l ${KUBE_POD_RAY_HEAD_LABEL_SELECTOR} --for=condition=Ready --timeout=600s | grep -v 'no matching resources' > /dev/null && break || echo "Waiting for Ray Head node"
-    sleep 1
-done
-```
-
---8<-- "ml/ray/cluster/kubernetes"
-
-## Wait for at least one Worker to be Ready
-
-```shell
-while true; do
-    kubectl --context ${KUBE_CONTEXT} wait pod -n ${KUBE_NS} -l ${KUBE_POD_LABEL_SELECTOR} --for=condition=Ready --timeout=600s | grep -v 'no matching resources' > /dev/null && break || echo "Waiting for Ray Worker nodes"
-    sleep 1
-done
-```

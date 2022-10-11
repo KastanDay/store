@@ -1,13 +1,14 @@
 ---
 imports:
-    - ml/ray/start
+    - util/jobid
     - ml/ray/run/logs/init
+    - ml/ray/start
 ---
 
 # Run a Ray Job
 
---8<-- "./core/index.md"
---8<-- "./data/index.md"
---8<-- "./train/index.md"
---8<-- "./tune/index.md"
---8<-- "./serve/index.md"
+--8<-- "./core"
+--8<-- "./data"
+--8<-- "./train"
+--8<-- "./tune"
+--8<-- "./serve"

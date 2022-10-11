@@ -4,8 +4,11 @@ I would like to configure and fire off a run.
 
 ## What kind of application do you want to run?
 
-=== "Training"
-    --8<-- "./training"
+=== "Run with CodeFlare Model Architecture"
+    :import{./run-with-codeflare.md}
 
-=== "Fine Tuning"
-    --8<-- "./tuning"
+=== "Bring Your Own Code"
+    :import{./training/byoc/index.md}
+
+=== "Demos"
+    :import{./training/demos/index.md}

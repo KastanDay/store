@@ -1,5 +1,12 @@
+# CodeFlare Training Demos
+
+Experience how CodeFlare integrates with Tensorboard, MLFlow, and other technologies on simple demo applications.
+
+=== "Getting Started Demo"
+    :import{./getting-started}
+
 === "MLFlow Demo"
-    --8<-- "./mlflow"
+    :import{./mlflow}
 
 === "Tensorboard Demo"
-    --8<-- "./tensorboard"
+    :import{./tensorboard}

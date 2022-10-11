@@ -2,9 +2,7 @@
 
 This will install Ray on your laptop.
 
-```shell
-export RAY_ADDRESS=http://127.0.0.1:8265
-```
+--8<-- "../cluster/connect"
 
 ```shell
 export PIP_LOCAL=true
@@ -17,7 +15,7 @@ export PIP_LOCAL=true
     ---
     validate: pip-show ray
     ---
-    pip install -U "ray[default]"
+    pip3 install -U "ray[default]==1.13"
     ```
 
 === "Apple Silicon"
@@ -32,7 +30,7 @@ export PIP_LOCAL=true
     conda activate
     pip uninstall grpcio
     conda install grpcio
-    pip install ray
+    pip3 install -U "ray[default]==1.13"
     ```
         
 ```shell
